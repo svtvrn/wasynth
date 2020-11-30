@@ -1,2 +1,2 @@
-# waguitar
-WebAudio API Guitar program
+# wasynth
+WebAudio API Synth program
