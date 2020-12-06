@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="synthstyle.css">
+    <title>Web Audio Synth</title>
+</head>
+<body>
+    
+    <div class="ascii-synth">
+         ________       ___    ___ ________   _________  ___  ___      ___    ___      ________  ________  ___     
+        |\   ____\     |\  \  /  /|\   ___  \|\___   ___\\  \|\  \    |\  \  /  /|    |\   __  \|\   __  \|\  \    
+        \ \  \___|_    \ \  \/  / | \  \\ \  \|___ \  \_\ \  \\\  \   \ \  \/  / /    \ \  \|\ /\ \  \|\  \ \  \   
+         \ \_____  \    \ \    / / \ \  \\ \  \   \ \  \ \ \   __  \   \ \    / /      \ \   __  \ \  \\\  \ \  \  
+          \|____|\  \    \/  /  /   \ \  \\ \  \   \ \  \ \ \  \ \  \   \/  /  /        \ \  \|\  \ \  \\\  \ \  \ 
+            ____\_\  \ __/  / /      \ \__\\ \__\   \ \__\ \ \__\ \__\__/  / /           \ \_______\ \_______\ \__\
+           |\_________\\___/ /        \|__| \|__|    \|__|  \|__|\|__|\___/ /             \|_______|\|_______|\|__|
+           \|_________\|___|/                                        \|___|/                                       
+                                                                                                                   
+    </div>
+    <div class="base"></div>
+    <div class="panel"></div>
+    <div class="slidecontainer">
+        <input id="volume" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeGain(this.value)">
+    </div>
+    <div id="gainval" class="gain"></div>
+    <div class="vollabel" style=" top: 290px; left: 1170px;">COMPRESSOR</div>
+    <div class="vollabel" style=" top: 365px; left: 1193px;">GAIN</div>
+    <button id="compression" title="off" class="compressor">C</button>
+    <div id = waves>
+        <button id="sine" class="wavebutton" style="left: 580px ;">SINE</button>
+        <button id="square" class="wavebutton" style="left: 720px ;">SQUARE</button>
+        <button id="triangle" class="wavebutton" style="left: 860px ;">TRIANGLE</button>
+        <button id="sawtooth" class="wavebutton" style="left: 1000px ;">SAWTOOTH</button>
+    </div>
+
+    <div id="currwave" class="screen"></div>
+    <div id="keys">
+        <button id="261.63" class="white-key" style="left: 560px ;"></button>
+        <button id="293.66"class="white-key" style="left: 660px ;"></button>
+        <button id="329.63"class="white-key" style="left: 760px ;"></button>
+        <button id="349.23" class="white-key" style="left: 860px ;"></button>
+        <button id="392.00" class="white-key" style="left: 960px ;"></button>
+        <button id="440.00" class="white-key" style="left: 1060px ;"></button>
+        <button id="493.88" class="white-key" style="left: 1160px ;"></button>
+        <button id="523.25" class="white-key" style="left: 1260px ;"></button>
+
+        <button id="277.18" class="black-key" style="left: 630px ;"></button>
+        <button id="311.13" class="black-key" style="left: 730px ;"></button>
+        <button id="369.99" class="black-key" style="left: 930px ;"></button>
+        <button id="415.30" class="black-key" style="left: 1030px ;"></button>
+        <button id="466.16" class="black-key" style="left: 1130px ;"></button>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
