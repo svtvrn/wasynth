@@ -67,13 +67,13 @@ function compressionOn(e){
     if(compression.title=="off"){
         compressor.connect(gain);
         compression.setAttribute('title','on');
-        compression.setAttribute("style", "color: rgb(208, 255, 0);");
+        compression.setAttribute("style", "color: rgb(208, 255, 0); border-style:inset; background-color:  rgb(100, 0, 70);");
         compressor_on=1;
         
     }else if(compression.title=="on"){
         compressor.disconnect(gain);
         compression.setAttribute('title','off');
-        compression.setAttribute("style", "color: rgb(255, 255, 255);");
+        compression.setAttribute("style", "color: rgb(255, 255, 255); border-style:0; background-color:  rgb(255, 0, 179);");
         compressor_on=0;
     }
 }
