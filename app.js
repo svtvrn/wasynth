@@ -128,4 +128,5 @@ function envelopeOff(gain,release,note){
     gain.cancelScheduledValues(0);
     gain.setValueAtTime(gain.value,time);
     gain.linearRampToValueAtTime(0,time+release);
+    note.stop(time+release);
 }
