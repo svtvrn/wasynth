@@ -35,8 +35,8 @@ highself.type = "highself";
 highself.frequency.value = 17000;
 highself.gain.value = 2;
 
-//ASDR variables used to apply the effect
-var attack = delay = release = 0.1;
+//ADSR variables used to apply the effect
+var attack = delay = release = 0.5;
 var sustain = 1, envelopeMode = 1, velocity = 1;
 
 //Assigns the "keys" elements from the HTML file
@@ -67,16 +67,17 @@ function createNote(hertz){
     return note;
 }
 
-//Playes the note created in createNote(), applies ASDR accordingly
+//Playes the note created in createNote(), applies ADSR accordingly
 function playNote(e){
     if(e.target!==e.currentTarget){
         var hertz= parseFloat(e.target.id);
     }
     var note = createNote(hertz);
     note.start();
-    //envelopeOn(gain,attack,delay,sustain);
+    envelopeOn(gain.gain,attack,delay,sustain);
     keys.addEventListener("mouseup",function(){
-        note.stop();
+        envelopeOff(gain.gain,release,note);
+        console.log("Wtf");
     });
 }
 
@@ -117,14 +118,14 @@ function envelopeOn(gain,attack,delay,sustain){
     delay *= envelopeMode;
     gain.cancelScheduledValues(0);
     gain.setValueAtTime(0,time);
-    gain.linearRampToValue(1,time+attack);
-    gain.linearRampToValue(1,time+attack+delay);
+    gain.linearRampToValueAtTime(1,time+attack);
+    gain.linearRampToValueAtTime(sustain,time+attack+delay);
 }
 
-function envelopeOff(gain,release){
+function envelopeOff(gain,release,note){
     var time = context.currentTime;
     release *= envelopeMode;
     gain.cancelScheduledValues(0);
     gain.setValueAtTime(gain.value,time);
-    gain.linearRampToValue(0,time+release);
+    gain.linearRampToValueAtTime(0,time+release);
 }
