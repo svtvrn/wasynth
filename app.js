@@ -1,3 +1,4 @@
+
 var context = new (window.AudioContext || window.webkitAudioContext)();
 var wave='sine'
 
@@ -13,6 +14,10 @@ compressor.knee.setValueAtTime(40, context.currentTime);
 compressor.ratio.setValueAtTime(12, context.currentTime);
 compressor.attack.setValueAtTime(0, context.currentTime);
 compressor.release.setValueAtTime(0.25, context.currentTime);
+
+var attack = delay = release = 0.1;
+var sustain = 1, envelopeMode = 1, velocity = 1;
+
 
 compressor_on = 0
 
@@ -43,8 +48,9 @@ function playNote(e){
     }
     var note = createNote(hertz);
     note.start();
+    envelopeOn(gain,attack,delay,sustain);
     keys.addEventListener("mouseup",function(){
-        note.stop(context.currentTime);
+        envelopeOff(gain,release);
     });
 }
 
@@ -78,4 +84,20 @@ function compressionOn(e){
     }
 }
 
+function envelopeOn(gain,attack,delay,sustain){
+    var time = context.currentTime;
+    attack *= envelopeMode;
+    delay *= envelopeMode;
+    gain.cancelScheduledValues(0);
+    gain.setValueAtTime(0,time);
+    gain.linearRampToValue(1,time+attack);
+    gain.linearRampToValue(1,time+attack+delay);
+}
 
+function envelopeOff(gain,release){
+    var time = context.currentTime;
+    release *= envelopeMode;
+    gain.cancelScheduledValues(0);
+    gain.setValueAtTime(gain.value,time);
+    gain.linearRampToValue(0,time+release);
+}
