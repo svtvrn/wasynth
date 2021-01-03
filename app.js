@@ -6,7 +6,7 @@ var wave='sine'
 var  gain = context.createGain();
 gain.gain.value=0.5;
 gain.connect(context.destination);
-gainval.innerHTML = (gain.gain.value*100).toFixed(0);
+gainval.innerHTML = (gain.gain.value*100).toFixed(0)+"%";
 document.getElementById("currwave").innerHTML = "Current wave: "+wave;
 
 
@@ -23,17 +23,17 @@ compressor_on = 0
 var lowshelf = context.createBiquadFilter();
 lowshelf.type = "lowshelf";
 lowshelf.frequency.value = 4000;
-lowshelf.gain.value = 2;
+lowshelf.gain.value = -2;
 
 var peaking = context.createBiquadFilter();
 peaking.type = "peaking";
 peaking.frequency.value = 10000;
-peaking.gain.value = -2;
+peaking.gain.value = 2;
 
 var highself = context.createBiquadFilter();
 highself.type = "highself";
 highself.frequency.value = 17000;
-highself.gain.value = 2;
+highself.gain.value = 3;
 
 //ADSR variables used to apply the effect
 var attack = delay = release = 0.5;
@@ -85,7 +85,7 @@ function playNote(e){
 function changeGain(e){
     document.getElementById('volume').addEventListener('input', function() {
         gain.gain.value=volume.value;
-        gainval.innerHTML = (gain.gain.value*100).toFixed(0);
+        gainval.innerHTML = (gain.gain.value*100).toFixed(0)+"%";
     });
 }
 

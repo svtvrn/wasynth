@@ -67,7 +67,7 @@ body {
     text-align: center;
     line-height: 65px;
     display: inline-block;
-    font-size: 25px;
+    font-size: 20px;
     height: 60px;
     width: 60px;
     background-color: rgb(19, 18, 19);
@@ -77,9 +77,6 @@ body {
   }
   .slidecontainer {
     position: absolute;
-    transform: rotate(270deg);
-    top: 350px;
-    left: 1220px;
   }  
   .slider {
     -webkit-appearance: none;
@@ -118,7 +115,6 @@ body {
   .vollabel{
     position: absolute;
     font-family: OCR A Std, monospace	;
-    font-size: 11px;
     color:  whitesmoke;
   }
   .black-key {
