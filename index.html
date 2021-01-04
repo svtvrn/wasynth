@@ -30,15 +30,15 @@
 
     <div id="basstext" class="vollabel" style="font-size: 20px; top: 315px; left: 1425px;">BASS</div>
     <div class="slidecontainer" style="top: 350px; left: 1390px;">
-        <input id="bass" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeBass(this.value)" >
+        <input id="bass" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeBass(this.value)" >
     </div>
     <div id="midtext" class="vollabel" style="font-size: 20px; top: 435px; left: 1435px;">MID</div>
     <div class="slidecontainer" style="top: 470px; left: 1390px;">
-        <input id="mid" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeMid(this.value)">
+        <input id="mid" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeMid(this.value)">
     </div>
     <div id="trebletext" class="vollabel" style="font-size: 20px; top: 555px; left: 1415px;">TREBLE</div>
     <div class="slidecontainer" style="top: 590px; left: 1390px;">
-        <input id="treble" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeTreble(this.value)">
+        <input id="treble" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeTreble(this.value)">
     </div>
 
     <div id = waves>
@@ -50,19 +50,19 @@
 
     <div id="attacktext" class="vollabel" style="font-size: 16px; top: 300px; left: 305px;">ATTACK</div>
     <div class="slidecontainer" style="top: 320px; left: 300px;">
-        <input id="attack" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" >
+        <input id="att" type="range" class="slider" min="0.1" max="1.0" value="0.5" step="0.1" oninput="changeAttack(this.value)">
     </div>
-    <div id="delaytext" class="vollabel" style="font-size: 16px; top: 380px; left: 305px;">DELAY</div>
+    <div id="decaytext" class="vollabel" style="font-size: 16px; top: 380px; left: 305px;">DECAY</div>
     <div class="slidecontainer" style="top: 400px; left: 300px;">
-        <input id="delay" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" >
+        <input id="dec" type="range" class="slider" min="0.1" max="1.0" value="0.5" step="0.1" oninput="changeDecay(this.value)">
     </div>
     <div id="sustaintext" class="vollabel" style="font-size: 16px; top: 460px; left: 305px;">SUSTAIN</div>
     <div class="slidecontainer" style="top: 480px; left: 300px;">
-        <input id="sustain" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" >
+        <input id="sus" type="range" class="slider" min="0.1" max="1.0" value="0.5" step="0.1" oninput="changeSustain(this.value)">
     </div>
     <div id="releasetext" class="vollabel" style="font-size: 16px; top: 540px; left: 305px;">RELEASE</div>
     <div class="slidecontainer" style="top: 560px; left: 300px;">
-        <input id="release" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" >
+        <input id="rel" type="range" class="slider" min="0.1" max="1.0" value="0.5" step="0.1" oninput="changeRelease(this.value)">
     </div>
 
     <div id="currwave" class="screen"></div>

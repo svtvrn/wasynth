@@ -22,22 +22,22 @@ compressor_on = 0
 //Bass, Mid and Treble filters, gain aka boost changed by user.
 var lowshelf = context.createBiquadFilter();
 lowshelf.type = "lowshelf";
-lowshelf.frequency.value = 500;
+lowshelf.frequency.value = 330;
 lowshelf.gain.value = 0.5;
 
 var peaking = context.createBiquadFilter();
 peaking.type = "peaking";
-peaking.frequency.value = 1500;
+peaking.frequency.value = 400;
 peaking.gain.value = 0.5;
 
 var highself = context.createBiquadFilter();
 highself.type = "highself";
-highself.frequency.value = 3000;
+highself.frequency.value = 440;
 highself.gain.value = 0.5;
 
 //ADSR variables used to apply the effect
 var attack = delay = release = 0.5;
-var sustain = 1, envelopeMode = 1, velocity = 1;
+var sustain = 0.5, envelopeMode = 1;
 
 //Assigns the "keys" elements from the HTML file
 var keys = document.querySelector("#keys");
@@ -106,6 +106,29 @@ function changeTreble(e){
     });
 }
 
+function changeAttack(e){
+    document.getElementById('att').addEventListener("input",function(){
+        attack = att.value;
+    });
+}
+function changeDecay(e){
+    document.getElementById('dec').addEventListener("input",function(){
+        decay = dec.value;
+    });
+}
+function changeSustain(e){
+    document.getElementById('sus').addEventListener("input",function(){
+        sustain = sus.value;
+    });
+}
+function changeRelease(e){
+    document.getElementById('rel').addEventListener("input",function(){
+        release = rel.value;
+    });
+}
+
+
+
 function changeWave(e){
     if(e.target!==e.currentTarget){
         wave= e.target.id;
@@ -135,7 +158,8 @@ function envelopeOn(gain,attack,delay,sustain){
     delay *= envelopeMode;
     gain.cancelScheduledValues(0);
     gain.setValueAtTime(0,time);
-    gain.linearRampToValueAtTime(1,time+attack);
+    console.log(lowshelf.gain.value);
+    gain.linearRampToValueAtTime(gain.value,time+attack);
     gain.linearRampToValueAtTime(sustain,time+attack+delay);
 }
 
