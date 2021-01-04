@@ -47,25 +47,25 @@
         <button id="triangle" class="wavebutton" style="left: 860px ;">TRIANGLE</button>
         <button id="sawtooth" class="wavebutton" style="left: 1000px ;">SAWTOOTH</button>
     </div>
+    <div id="currwave" class="screen"></div>
 
     <div id="attacktext" class="vollabel" style="font-size: 16px; top: 300px; left: 305px;">ATTACK</div>
     <div class="slidecontainer" style="top: 320px; left: 300px;">
-        <input id="att" type="range" class="slider" min="0.1" max="1.0" value="0.5" step="0.1" oninput="changeAttack(this.value)">
+        <input id="att" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeAttack(this.value)">
     </div>
     <div id="decaytext" class="vollabel" style="font-size: 16px; top: 380px; left: 305px;">DECAY</div>
     <div class="slidecontainer" style="top: 400px; left: 300px;">
-        <input id="dec" type="range" class="slider" min="0.1" max="1.0" value="0.5" step="0.1" oninput="changeDecay(this.value)">
+        <input id="dec" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeDecay(this.value)">
     </div>
     <div id="sustaintext" class="vollabel" style="font-size: 16px; top: 460px; left: 305px;">SUSTAIN</div>
     <div class="slidecontainer" style="top: 480px; left: 300px;">
-        <input id="sus" type="range" class="slider" min="0.1" max="1.0" value="0.5" step="0.1" oninput="changeSustain(this.value)">
+        <input id="sus" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeSustain(this.value)">
     </div>
     <div id="releasetext" class="vollabel" style="font-size: 16px; top: 540px; left: 305px;">RELEASE</div>
     <div class="slidecontainer" style="top: 560px; left: 300px;">
-        <input id="rel" type="range" class="slider" min="0.1" max="1.0" value="0.5" step="0.1" oninput="changeRelease(this.value)">
+        <input id="rel" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeRelease(this.value)">
     </div>
 
-    <div id="currwave" class="screen"></div>
     <div id="keys">
         <button id="261.63" class="white-key" style="left: 560px ;"></button>
         <button id="293.66"class="white-key" style="left: 660px ;"></button>

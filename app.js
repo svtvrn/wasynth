@@ -3,10 +3,10 @@ var context = new (window.AudioContext || window.webkitAudioContext)();
 var wave='sine'
 
 //Master gain node
-var  gain = context.createGain();
-gain.gain.value=0.5;
-gain.connect(context.destination);
-gainval.innerHTML = (gain.gain.value*100).toFixed(0)+"%";
+var  amp = context.createGain();
+amp.gain.value=0.5;
+amp.connect(context.destination);
+gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
 document.getElementById("currwave").innerHTML = "Current wave: "+wave;
 
 
@@ -36,7 +36,10 @@ highself.frequency.value = 440;
 highself.gain.value = 0.5;
 
 //ADSR variables used to apply the effect
-var attack = delay = release = 0.5;
+var envelopeGain = context.createGain();
+
+
+var attack = decay = release = 0.5;
 var sustain = 0.5, envelopeMode = 1;
 
 //Assigns the "keys" elements from the HTML file
@@ -59,11 +62,8 @@ function createNote(hertz){
     note.connect(lowshelf);
     lowshelf.connect(peaking);
     peaking.connect(highself);
-    if(compressor_on){
-        highself.connect(compressor);
-    }else{
-        highself.connect(gain);
-    }
+    highself.connect(envelopeGain);
+    envelopeGain.connect(amp);
     return note;
 }
 
@@ -74,17 +74,17 @@ function playNote(e){
     }
     var note = createNote(hertz);
     note.start();
-    envelopeOn(gain.gain,attack,delay,sustain);
+    envelopeOn(envelopeGain.gain,attack,decay,sustain);
     keys.addEventListener("mouseup",function(){
-        envelopeOff(gain.gain,release,note);
+        envelopeOff(envelopeGain.gain,release,note);
     });
 }
 
 //Changes gain when the slider value is changed
 function changeGain(e){
     document.getElementById('volume').addEventListener('input', function() {
-        gain.gain.value=volume.value;
-        gainval.innerHTML = (gain.gain.value*100).toFixed(0)+"%";
+        amp.gain.value=volume.value;
+        gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
     });
 }
 
@@ -139,35 +139,34 @@ function changeWave(e){
 function compressionOn(e){
     
     if(compression.title=="off"){
-        compressor.connect(gain);
+        compressor.connect(amp);
         compression.setAttribute('title','on');
         compression.setAttribute("style", "color: rgb(208, 255, 0); border-style:inset; background-color:  rgb(100, 0, 70);");
         compressor_on=1;
         
     }else if(compression.title=="on"){
-        compressor.disconnect(gain);
+        compressor.disconnect(amp);
         compression.setAttribute('title','off');
         compression.setAttribute("style", "color: rgb(255, 255, 255); border-style:0; background-color:  rgb(255, 0, 179);");
         compressor_on=0;
     }
 }
 
-function envelopeOn(gain,attack,delay,sustain){
+function envelopeOn(gain,attack,decay,sustain){
     var time = context.currentTime;
     attack *= envelopeMode;
-    delay *= envelopeMode;
+    decay *= envelopeMode;
     gain.cancelScheduledValues(0);
     gain.setValueAtTime(0,time);
-    console.log(lowshelf.gain.value);
-    gain.linearRampToValueAtTime(gain.value,time+attack);
-    gain.linearRampToValueAtTime(sustain,time+attack+delay);
+    gain.linearRampToValueAtTime(amp.gain.value,time+attack);
+    gain.linearRampToValueAtTime(sustain,time+attack+decay);
 }
 
 function envelopeOff(gain,release,note){
     var time = context.currentTime;
     release *= envelopeMode;
     gain.cancelScheduledValues(0);
-    gain.setValueAtTime(gain.value,time);
+    gain.setValueAtTime(sustain,time);
     gain.linearRampToValueAtTime(0,time+release);
     note.stop(time+release);
 }
