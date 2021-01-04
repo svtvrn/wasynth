@@ -23,17 +23,18 @@ compressor_on = 0
 var lowshelf = context.createBiquadFilter();
 lowshelf.type = "lowshelf";
 lowshelf.frequency.value = 330;
-lowshelf.gain.value = 0.5;
+lowshelf.gain.value = 10;
 
 var peaking = context.createBiquadFilter();
 peaking.type = "peaking";
-peaking.frequency.value = 400;
-peaking.gain.value = 0.5;
+peaking.frequency.value = 370;
+peaking.Q.value = 20;
+peaking.gain.value = 5;
 
 var highself = context.createBiquadFilter();
 highself.type = "highself";
-highself.frequency.value = 440;
-highself.gain.value = 0.5;
+highself.frequency.value = 410;
+highself.gain.value = 20;
 
 //ADSR variables used to apply the effect
 var envelopeGain = context.createGain();
@@ -74,6 +75,9 @@ function playNote(e){
     }
     var note = createNote(hertz);
     note.start();
+    console.log("Bass: "+lowshelf.gain.value);
+    console.log("Mid: "+peaking.gain.value);
+    console.log("Treb: "+highself.gain.value);
     envelopeOn(envelopeGain.gain,attack,decay,sustain);
     keys.addEventListener("mouseup",function(){
         envelopeOff(envelopeGain.gain,release,note);
