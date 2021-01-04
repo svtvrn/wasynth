@@ -30,15 +30,15 @@
 
     <div id="basstext" class="vollabel" style="font-size: 20px; top: 315px; left: 1425px;">BASS</div>
     <div class="slidecontainer" style="top: 350px; left: 1390px;">
-        <input id="bass" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" >
+        <input id="bass" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeBass(this.value)" >
     </div>
     <div id="midtext" class="vollabel" style="font-size: 20px; top: 435px; left: 1435px;">MID</div>
     <div class="slidecontainer" style="top: 470px; left: 1390px;">
-        <input id="mid" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" >
+        <input id="mid" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeMid(this.value)">
     </div>
     <div id="trebletext" class="vollabel" style="font-size: 20px; top: 555px; left: 1415px;">TREBLE</div>
     <div class="slidecontainer" style="top: 590px; left: 1390px;">
-        <input id="mid" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" >
+        <input id="treble" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeTreble(this.value)">
     </div>
 
     <div id = waves>

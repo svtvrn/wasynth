@@ -22,18 +22,18 @@ compressor_on = 0
 //Bass, Mid and Treble filters, gain aka boost changed by user.
 var lowshelf = context.createBiquadFilter();
 lowshelf.type = "lowshelf";
-lowshelf.frequency.value = 4000;
-lowshelf.gain.value = -2;
+lowshelf.frequency.value = 500;
+lowshelf.gain.value = 0.5;
 
 var peaking = context.createBiquadFilter();
 peaking.type = "peaking";
-peaking.frequency.value = 10000;
-peaking.gain.value = 2;
+peaking.frequency.value = 1500;
+peaking.gain.value = 0.5;
 
 var highself = context.createBiquadFilter();
 highself.type = "highself";
-highself.frequency.value = 17000;
-highself.gain.value = 3;
+highself.frequency.value = 3000;
+highself.gain.value = 0.5;
 
 //ADSR variables used to apply the effect
 var attack = delay = release = 0.5;
@@ -77,7 +77,6 @@ function playNote(e){
     envelopeOn(gain.gain,attack,delay,sustain);
     keys.addEventListener("mouseup",function(){
         envelopeOff(gain.gain,release,note);
-        console.log("Wtf");
     });
 }
 
@@ -86,6 +85,24 @@ function changeGain(e){
     document.getElementById('volume').addEventListener('input', function() {
         gain.gain.value=volume.value;
         gainval.innerHTML = (gain.gain.value*100).toFixed(0)+"%";
+    });
+}
+
+function changeBass(e){
+    document.getElementById('bass').addEventListener("input",function(){
+        lowshelf.gain.value = bass.value;
+    });
+}
+
+function changeMid(e){
+    document.getElementById('mid').addEventListener("input",function(){
+        peaking.gain.value = mid.value;
+    });
+}
+
+function changeTreble(e){
+    document.getElementById('treble').addEventListener("input",function(){
+        highself.gain.value = treble.value;
     });
 }
 
