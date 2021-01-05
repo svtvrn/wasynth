@@ -14,29 +14,36 @@ var distortion = context.createWaveShaper();
 distortion.curve = makeDistortionCurve(0);
 
 //Bass, Mid and Treble filters, gain aka boost changed by user.
+var filters = context.createBiquadFilter();
+filters.type = "peaking";
+filters.frequency.value = 370;
+filters.Q.value = 1000;
+filters.gain.value = 20;
+
 var lowshelf = context.createBiquadFilter();
 lowshelf.type = "lowshelf";
 lowshelf.frequency.value = 330;
-lowshelf.gain.value = 20;
+lowshelf.gain.value = 10;
 
 var peaking = context.createBiquadFilter();
 peaking.type = "peaking";
 peaking.frequency.value = 370;
-peaking.Q.value = 200;
+peaking.Q.value = 50;
 peaking.gain.value = 20;
 
 var highshelf = context.createBiquadFilter();
 highshelf.type = "highshelf";
 highshelf.frequency.value = 410;
-highshelf.gain.value = 20;
+highshelf.gain.value = 10;
 
 //ADSR variables used to apply the effect
 var envelopeGain = context.createGain();
 var attack = decay = release = 0.5;
 var sustain = 0.5, envelopeMode = 1;
 
-lowshelf.connect(peaking);
-peaking.connect(highshelf);
+filters.connect(peaking);
+peaking.connect(lowshelf);
+lowshelf.connect(highshelf);
 highshelf.connect(distortion);
 distortion.connect(amp);
 
@@ -66,7 +73,7 @@ function playNote(e){
         var hertz= parseFloat(e.target.id);
     }
     var note = createNote(hertz);
-    note.connect(lowshelf);
+    note.connect(filters);
         //envelopeGain.connect(amp);
     note.start();
     console.log("Bass: "+lowshelf.gain.value);
