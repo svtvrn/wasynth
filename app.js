@@ -9,8 +9,9 @@ amp.connect(context.destination);
 gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
 document.getElementById("currwave").innerHTML = "Current wave: "+wave;
 
+//Distortion
 var distortion = context.createWaveShaper();
-distortion.curve = makeDistortionCurve(5);
+distortion.curve = makeDistortionCurve(0);
 
 //Bass, Mid and Treble filters, gain aka boost changed by user.
 var lowshelf = context.createBiquadFilter();
@@ -21,7 +22,7 @@ lowshelf.gain.value = 20;
 var peaking = context.createBiquadFilter();
 peaking.type = "peaking";
 peaking.frequency.value = 370;
-peaking.Q.value = 100;
+peaking.Q.value = 200;
 peaking.gain.value = 20;
 
 var highshelf = context.createBiquadFilter();
@@ -33,6 +34,11 @@ highshelf.gain.value = 20;
 var envelopeGain = context.createGain();
 var attack = decay = release = 0.5;
 var sustain = 0.5, envelopeMode = 1;
+
+lowshelf.connect(peaking);
+peaking.connect(highshelf);
+highshelf.connect(distortion);
+distortion.connect(amp);
 
 //Assigns the "keys" elements from the HTML file
 var keys = document.querySelector("#keys");
@@ -61,10 +67,6 @@ function playNote(e){
     }
     var note = createNote(hertz);
     note.connect(lowshelf);
-    lowshelf.connect(peaking);
-    peaking.connect(highshelf);
-    highshelf.connect(distortion);
-    distortion.connect(amp);
         //envelopeGain.connect(amp);
     note.start();
     console.log("Bass: "+lowshelf.gain.value);
