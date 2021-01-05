@@ -12,7 +12,7 @@ gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
 
 //Distortion
 var distortion = context.createWaveShaper();
-distortion.curve = makeDistortionCurve(50);
+distortion.curve = makeDistortionCurve(0);
 
 //Bass, Mid and Treble filters, gain aka boost changed by user.
 var filters = context.createBiquadFilter();
@@ -48,6 +48,9 @@ lowshelf.connect(highshelf);
 highshelf.connect(envelopeGain);
 envelopeGain.connect(distortion);
 distortion.connect(amp);
+
+var distortButton = document.getElementById('distortbutton');
+distortButton.addEventListener("click",turnOnDistortion);
 
 //Assigns the "keys" elements from the HTML file
 var keys = document.querySelector("#keys");
@@ -163,6 +166,22 @@ function envelopeOff(gain,release,note){
     gain.setValueAtTime(sustain,time);
     gain.linearRampToValueAtTime(0,time+release);
     note.stop(time+release);
+}
+
+function turnOnDistortion(e){
+    if(distortButton.title=='off'){
+        distortButton.setAttribute('title','on');
+        distortButton.innerHTML="ON";
+        distortButton.style.color =  'rgb(24, 255, 101)';
+        distortButton.style.backgroundColor = 'rgb(100, 10, 156)';
+        distortion.curve = makeDistortionCurve(document.getElementById('distort').value*5);
+    }else if(distortButton.title=='on'){
+        distortButton.setAttribute('title','off');
+        distortButton.innerHTML="OFF";
+        distortButton.style.color =  'whitesmoke';
+        distortButton.style.backgroundColor = 'rgb(144, 10, 156)';
+        distortion.curve = makeDistortionCurve(0);
+    }
 }
 
 function makeDistortionCurve(amount) {

@@ -98,18 +98,18 @@ body {
     background: whitesmoke;
     cursor: pointer;
   }
-  .compressor{
+  .distortion{
     position: absolute;
     font-family: OCR A Std, monospace	;
-    color:  rgb(255, 255, 255);
+    color:  whitesmoke;
     text-align: center;
     display: inline-block;
-    font-size: 20px;
+    font-size: 16px;
     height: 50px;
     width: 50px;
-    background-color: rgb(255, 0, 179);
-    top: 305px;
-    left: 1185px;
+    background-color: rgb(144, 10, 156);
+    top: 590px;
+    left: 1455px;
     border-radius: 100%;
   }
   .vollabel{
