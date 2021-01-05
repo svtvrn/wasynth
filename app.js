@@ -9,7 +9,6 @@ amp.connect(context.destination);
 gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
 document.getElementById("currwave").innerHTML = "Current wave: "+wave;
 
-
 //Compressor node, applies effect when the button is pressed
 var compressor = context.createDynamicsCompressor();
 compressor.threshold.setValueAtTime(-50, context.currentTime);
@@ -31,15 +30,13 @@ peaking.frequency.value = 370;
 peaking.Q.value = 20;
 peaking.gain.value = 5;
 
-var highself = context.createBiquadFilter();
-highself.type = "highself";
-highself.frequency.value = 410;
-highself.gain.value = 20;
+var highshelf = context.createBiquadFilter();
+highshelf.type = "highshelf";
+highshelf.frequency.value = 410;
+highshelf.gain.value = 20;
 
 //ADSR variables used to apply the effect
 var envelopeGain = context.createGain();
-
-
 var attack = decay = release = 0.5;
 var sustain = 0.5, envelopeMode = 1;
 
@@ -62,8 +59,8 @@ function createNote(hertz){
     note.frequency.setValueAtTime(hertz,context.currentTime);
     note.connect(lowshelf);
     lowshelf.connect(peaking);
-    peaking.connect(highself);
-    highself.connect(envelopeGain);
+    peaking.connect(highshelf);
+    highshelf.connect(envelopeGain);
     envelopeGain.connect(amp);
     return note;
 }
@@ -77,7 +74,7 @@ function playNote(e){
     note.start();
     console.log("Bass: "+lowshelf.gain.value);
     console.log("Mid: "+peaking.gain.value);
-    console.log("Treb: "+highself.gain.value);
+    console.log("Treb: "+highshelf.gain.value);
     envelopeOn(envelopeGain.gain,attack,decay,sustain);
     keys.addEventListener("mouseup",function(){
         envelopeOff(envelopeGain.gain,release,note);
@@ -106,7 +103,7 @@ function changeMid(e){
 
 function changeTreble(e){
     document.getElementById('treble').addEventListener("input",function(){
-        highself.gain.value = treble.value;
+        highshelf.gain.value = treble.value;
     });
 }
 
@@ -130,8 +127,6 @@ function changeRelease(e){
         release = rel.value;
     });
 }
-
-
 
 function changeWave(e){
     if(e.target!==e.currentTarget){
