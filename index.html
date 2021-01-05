@@ -44,6 +44,12 @@
         <div class="slidecontainer" style="top: 430px; left: 1415px;">
             <input id="treble" type="range" class="slider" min="-20" max="20" value="0" step="1" oninput="changeTreble(this.value)">
         </div>
+        <div id="distorttext" class="vollabel" style="font-size: 18px; top: 500px; left: 1420px;">DISTORTION</div>
+        <div class="vollabel" style="font-size: 14px; top: 545px; left: 1380px;">LOW</div>
+        <div class="vollabel" style="font-size: 14px; top: 545px; left: 1550px;">HIGH</div>
+        <div class="slidecontainer" style="top: 530px; left: 1415px;">
+            <input id="distort" type="range" class="slider" min="0.0" max="20.0" value="10.0" step="1" oninput="changeDistortion(this.value)">
+        </div>
     </div>
 
     <div id = waves>
@@ -52,8 +58,8 @@
         <button id="triangle" class="wavebutton" style="left: 860px ;">TRIANGLE</button>
         <button id="sawtooth" class="wavebutton" style="left: 1000px ;">SAWTOOTH</button>
     </div>
-    
-    <div id="currwave" class="screen"></div>
+
+    <!--<div id="currwave" class="screen"></div>-->
     <div id="adsr">
         <div id="attacktext" class="vollabel" style="font-size: 16px; top: 300px; left: 305px;">ATTACK</div>
         <div class="slidecontainer" style="top: 320px; left: 300px;">

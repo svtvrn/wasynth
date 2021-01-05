@@ -1,17 +1,18 @@
 //Creates the audio context and the starting wave type
 var context = new (window.AudioContext || window.webkitAudioContext)();
 var wave='sine'
+sine.style.color ='rgb(24, 255, 101)';
+sine.style.backgroundColor = 'rgb(32, 10, 46)';
 
 //Master gain node
 var  amp = context.createGain();
 amp.gain.value=0.5;
 amp.connect(context.destination);
 gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
-document.getElementById("currwave").innerHTML = "Current wave: "+wave;
 
 //Distortion
 var distortion = context.createWaveShaper();
-distortion.curve = makeDistortionCurve(0);
+distortion.curve = makeDistortionCurve(50);
 
 //Bass, Mid and Treble filters, gain aka boost changed by user.
 var filters = context.createBiquadFilter();
@@ -41,8 +42,8 @@ var envelopeGain = context.createGain();
 var attack = decay = release = 0.5;
 var sustain = 0.5, envelopeMode = 1;
 
-filters.connect(peaking);
-peaking.connect(lowshelf);
+filters.connect(lowshelf);
+//peaking.connect(lowshelf);
 lowshelf.connect(highshelf);
 highshelf.connect(envelopeGain);
 envelopeGain.connect(distortion);
@@ -57,8 +58,7 @@ var waves = document.querySelector("#waves");
 waves.addEventListener("click",changeWave);
 
 //Assigns the "compressor button" element from the HTML file
-var compression = document.querySelector("#compression");
-compression.addEventListener("click",compressionOn);
+
 
 //Creates the note for the respective key, C4 to C5 and applies the filters (bass,mid,treb,compression)
 function createNote(hertz){
@@ -107,6 +107,11 @@ function changeTreble(e){
         highshelf.gain.value = treble.value;
     });
 }
+function changeDistortion(e){
+    document.getElementById('distort').addEventListener("input",function(){
+        distortion.curve = makeDistortionCurve(distort.value*5);
+    });
+}
 
 function changeAttack(e){
     document.getElementById('att').addEventListener("input",function(){
@@ -132,22 +137,12 @@ function changeRelease(e){
 function changeWave(e){
     if(e.target!==e.currentTarget){
         wave= e.target.id;
-        document.getElementById("currwave").innerHTML = "Current wave: "+wave;
-    }
-}
-
-function compressionOn(e){   
-    if(compression.title=="off"){
-        compressor.connect(amp);
-        compression.setAttribute('title','on');
-        compression.setAttribute("style", "color: rgb(208, 255, 0); border-style:inset; background-color:  rgb(100, 0, 70);");
-        compressor_on=1;
-        
-    }else if(compression.title=="on"){
-        compressor.disconnect(amp);
-        compression.setAttribute('title','off');
-        compression.setAttribute("style", "color: rgb(255, 255, 255); border-style:0; background-color:  rgb(255, 0, 179);");
-        compressor_on=0;
+        [].slice.call(document.getElementsByClassName('wavebutton'), 0).forEach(function(element){
+            element.style.color='whitesmoke';
+            element.style.backgroundColor = 'rgb(62, 10, 66)';
+        });
+        e.target.style.color ='rgb(24, 255, 101)';
+        e.target.style.backgroundColor = 'rgb(32, 10, 46)';
     }
 }
 
