@@ -9,26 +9,20 @@ amp.connect(context.destination);
 gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
 document.getElementById("currwave").innerHTML = "Current wave: "+wave;
 
-//Compressor node, applies effect when the button is pressed
-var compressor = context.createDynamicsCompressor();
-compressor.threshold.setValueAtTime(-50, context.currentTime);
-compressor.knee.setValueAtTime(40, context.currentTime);
-compressor.ratio.setValueAtTime(12, context.currentTime);
-compressor.attack.setValueAtTime(0, context.currentTime);
-compressor.release.setValueAtTime(0.25, context.currentTime);
-compressor_on = 0
+var distortion = context.createWaveShaper();
+distortion.curve = makeDistortionCurve(5);
 
 //Bass, Mid and Treble filters, gain aka boost changed by user.
 var lowshelf = context.createBiquadFilter();
 lowshelf.type = "lowshelf";
 lowshelf.frequency.value = 330;
-lowshelf.gain.value = 10;
+lowshelf.gain.value = 20;
 
 var peaking = context.createBiquadFilter();
 peaking.type = "peaking";
 peaking.frequency.value = 370;
-peaking.Q.value = 20;
-peaking.gain.value = 5;
+peaking.Q.value = 100;
+peaking.gain.value = 20;
 
 var highshelf = context.createBiquadFilter();
 highshelf.type = "highshelf";
@@ -57,11 +51,6 @@ function createNote(hertz){
     var note = context.createOscillator();
     note.type=wave;
     note.frequency.setValueAtTime(hertz,context.currentTime);
-    note.connect(lowshelf);
-    lowshelf.connect(peaking);
-    peaking.connect(highshelf);
-    highshelf.connect(envelopeGain);
-    envelopeGain.connect(amp);
     return note;
 }
 
@@ -71,13 +60,18 @@ function playNote(e){
         var hertz= parseFloat(e.target.id);
     }
     var note = createNote(hertz);
+    note.connect(lowshelf);
+    lowshelf.connect(peaking);
+    peaking.connect(highshelf);
+    highshelf.connect(distortion);
+    distortion.connect(amp);
+        //envelopeGain.connect(amp);
     note.start();
     console.log("Bass: "+lowshelf.gain.value);
-    console.log("Mid: "+peaking.gain.value);
-    console.log("Treb: "+highshelf.gain.value);
-    envelopeOn(envelopeGain.gain,attack,decay,sustain);
+    //envelopeOn(envelopeGain.gain,attack,decay,sustain);
     keys.addEventListener("mouseup",function(){
-        envelopeOff(envelopeGain.gain,release,note);
+        //envelopeOff(envelopeGain.gain,release,note);
+        note.stop();
     });
 }
 
@@ -135,8 +129,7 @@ function changeWave(e){
     }
 }
 
-function compressionOn(e){
-    
+function compressionOn(e){   
     if(compression.title=="off"){
         compressor.connect(amp);
         compression.setAttribute('title','on');
@@ -168,4 +161,18 @@ function envelopeOff(gain,release,note){
     gain.setValueAtTime(sustain,time);
     gain.linearRampToValueAtTime(0,time+release);
     note.stop(time+release);
+}
+
+function makeDistortionCurve(amount) {
+    var k = typeof amount === 'number' ? amount : 0,
+      n_samples = 44100,
+      curve = new Float32Array(n_samples),
+      deg = Math.PI / 180,
+      i = 0,
+      x;
+    for ( ; i < n_samples; ++i ) {
+      x = i * 2 / n_samples - 1;
+      curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+    }
+    return curve;
 }
