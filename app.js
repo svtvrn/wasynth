@@ -10,11 +10,11 @@ amp.gain.value=0.5;
 amp.connect(context.destination);
 gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
 
-//Distortion
+//Distortion filter
 var distortion = context.createWaveShaper();
 distortion.curve = makeDistortionCurve(0);
 
-//Bass, Mid and Treble filters, gain aka boost changed by user.
+//Bass and Treble filters, gain aka boost changed by user.
 var filters = context.createBiquadFilter();
 filters.type = "peaking";
 filters.frequency.value = 10370;
@@ -26,12 +26,6 @@ lowshelf.type = "lowshelf";
 lowshelf.frequency.value = 330;
 lowshelf.gain.value = 0;
 
-var peaking = context.createBiquadFilter();
-peaking.type = "peaking";
-peaking.frequency.value = 10370;
-peaking.Q.value = 50;
-peaking.gain.value = 20;
-
 var highshelf = context.createBiquadFilter();
 highshelf.type = "highshelf";
 highshelf.frequency.value = 410;
@@ -42,8 +36,13 @@ var envelopeGain = context.createGain();
 var attack = decay = release = 0.5;
 var sustain = 0.5, envelopeMode = 1;
 
+var tremolo = context.createOscillator();
+tremolo.frequency.value = 10;
+tremolo.type = 'sawtooth';
+tremolo.connect(amp.gain);
+tremolo.start();
+
 filters.connect(lowshelf);
-//peaking.connect(lowshelf);
 lowshelf.connect(highshelf);
 highshelf.connect(envelopeGain);
 envelopeGain.connect(distortion);
@@ -60,9 +59,6 @@ keys.addEventListener("mousedown",playNote);
 var waves = document.querySelector("#waves");
 waves.addEventListener("click",changeWave);
 
-//Assigns the "compressor button" element from the HTML file
-
-
 //Creates the note for the respective key, C4 to C5 and applies the filters (bass,mid,treb,compression)
 function createNote(hertz){
     var note = context.createOscillator();
@@ -74,8 +70,9 @@ function createNote(hertz){
 //Playes the note created in createNote(), applies ADSR accordingly
 function playNote(e){
     if(e.target!==e.currentTarget){
-        var hertz= parseFloat(e.target.id);
+        var hertz = parseFloat(e.target.id);
     }
+    console.log(hertz);
     var note = createNote(hertz);
     note.connect(filters);
     note.start();
