@@ -16,25 +16,25 @@ distortion.curve = makeDistortionCurve(0);
 //Bass, Mid and Treble filters, gain aka boost changed by user.
 var filters = context.createBiquadFilter();
 filters.type = "peaking";
-filters.frequency.value = 370;
-filters.Q.value = 1000;
+filters.frequency.value = 10370;
+filters.Q.value = 10000;
 filters.gain.value = 20;
 
 var lowshelf = context.createBiquadFilter();
 lowshelf.type = "lowshelf";
 lowshelf.frequency.value = 330;
-lowshelf.gain.value = 10;
+lowshelf.gain.value = 0;
 
 var peaking = context.createBiquadFilter();
 peaking.type = "peaking";
-peaking.frequency.value = 370;
+peaking.frequency.value = 10370;
 peaking.Q.value = 50;
 peaking.gain.value = 20;
 
 var highshelf = context.createBiquadFilter();
 highshelf.type = "highshelf";
 highshelf.frequency.value = 410;
-highshelf.gain.value = 10;
+highshelf.gain.value = 0;
 
 //ADSR variables used to apply the effect
 var envelopeGain = context.createGain();
@@ -44,7 +44,8 @@ var sustain = 0.5, envelopeMode = 1;
 filters.connect(peaking);
 peaking.connect(lowshelf);
 lowshelf.connect(highshelf);
-highshelf.connect(distortion);
+highshelf.connect(envelopeGain);
+envelopeGain.connect(distortion);
 distortion.connect(amp);
 
 //Assigns the "keys" elements from the HTML file
@@ -74,13 +75,10 @@ function playNote(e){
     }
     var note = createNote(hertz);
     note.connect(filters);
-        //envelopeGain.connect(amp);
     note.start();
-    console.log("Bass: "+lowshelf.gain.value);
-    //envelopeOn(envelopeGain.gain,attack,decay,sustain);
+    envelopeOn(envelopeGain.gain,attack,decay,sustain);
     keys.addEventListener("mouseup",function(){
-        //envelopeOff(envelopeGain.gain,release,note);
-        note.stop();
+        envelopeOff(envelopeGain.gain,release,note);
     });
 }
 

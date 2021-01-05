@@ -5,7 +5,7 @@ body {
    .base {
     position: absolute;
     height: 415px;
-    width: 1300px;
+    width: 1350px;
     background-color: #5a072a;
     top: 275px;
     bottom: 0;
@@ -71,7 +71,7 @@ body {
     height: 60px;
     width: 60px;
     background-color: rgb(19, 18, 19);
-    top: 380px;
+    top: 335px;
     left: 1180px;
     border-radius: 1px 1px 1px 1px;
   }
