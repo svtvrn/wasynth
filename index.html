@@ -20,12 +20,14 @@
     </div>
     <div class="base"></div>
     <div class="panel"></div>
-    <div class="slidecontainer" style="transform: rotate(270deg); top: 350px; left: 1220px;">
-        <input id="volume" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeGain(this.value)">
+    <div id="amp">
+        <div class="slidecontainer" style="transform: rotate(270deg); top: 350px; left: 1220px;">
+            <input id="volume" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeGain(this.value)">
+        </div>
+        <div id="gaintext" class="vollabel" style="font-size: 11px; top: 320px; left: 1193px;">GAIN</div>
+        <div id="gainval" class="gain"></div>
     </div>
-    <div id="gaintext" class="vollabel" style="font-size: 11px; top: 320px; left: 1193px;">GAIN</div>
-    <div id="gainval" class="gain"></div>
-    <div id='filters'></div>
+    <div id='filters'>
         <div id="basstext" class="vollabel" style="font-size: 18px; top: 300px; left: 1455px;">BASS</div>
         <div class="vollabel" style="font-size: 14px; top: 345px; left: 1360px;">-20dB</div>
         <div class="vollabel" style="font-size: 14px; top: 345px; left: 1550px;">+20dB</div>
@@ -53,7 +55,6 @@
         <button id="triangle" class="wavebutton" style="left: 860px ;">TRIANGLE</button>
         <button id="sawtooth" class="wavebutton" style="left: 1000px ;">SAWTOOTH</button>
     </div>
-
     <div id="adsr">
         <div id="adsrsliders">
             <div id="attacktext" class="vollabel" style="font-size: 16px; top: 300px; left: 305px;">ATTACK</div>
@@ -79,8 +80,6 @@
             <button id="midenv" class="envelopebutton" value="2" style="left: 385px;">MID</button>
             <button id="highenv" class="envelopebutton" value="3" style="left: 465px;">HIGH</button>
         </div>
-
-
     </div>
     <div id="keys">
         <button id="261.63" class="white-key" style="left: 560px ;"></button>

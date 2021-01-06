@@ -249,7 +249,7 @@ function drawOscilloscope(analyser,context){
     context.fillStyle = 'rgb(19, 18, 19)';
     context.fillRect(0, 0, width, height);
     context.lineWidth = 3;
-    context.strokeStyle = ' rgb(24, 255, 101)';
+    context.strokeStyle = 'rgb(24, 255, 101)';
     context.beginPath();
 
     while (timeData[risingEdge++] - 128 > 0 && risingEdge <= width);
