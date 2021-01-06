@@ -4,7 +4,7 @@ body {
    }
    .base {
     position: absolute;
-    height: 415px;
+    height: 445px;
     width: 1350px;
     background-color: #5a072a;
     top: 275px;
@@ -25,20 +25,12 @@ body {
     border-radius: 6px 6px 0px 0px;
     box-shadow: 10px;
   }
-  .screen {
+  .oscscreen {
     position: absolute;
-    font-family: OCR A Std, monospace	;
     color: rgb(24, 255, 101);
-    text-align: center;
-    line-height: 55px;
-    text-decoration: none;
     display: inline-block;
-    font-size: 25px;
-    background-color: rgb(17, 16, 17);
-    height: 50px;
-    width: 440px;
-    top: 380px;
-    left: 590px;
+    top: 370px;
+    left: 580px;
     border-radius: 1px 1px 1px 1px;
   }
   .wavebutton {
@@ -53,6 +45,20 @@ body {
     width: 120px;
     background-color: rgb(62, 10, 66);
     top: 290px;
+    border-radius: 6px 6px 6px 6px;
+  }
+  .envelopebutton {
+    position: absolute;
+    font-family: OCR A Std, monospace	;
+    color: whitesmoke;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    height: 50px;
+    width: 60px;
+    background-color:  #ff006a;
+    top: 650px;
     border-radius: 6px 6px 6px 6px;
   }
   .ascii-synth {
@@ -107,7 +113,7 @@ body {
     font-size: 16px;
     height: 50px;
     width: 50px;
-    background-color: rgb(144, 10, 156);
+    background-color: #ff006a;
     top: 590px;
     left: 1455px;
     border-radius: 100%;
@@ -126,7 +132,7 @@ body {
   }
   .white-key {
     position: absolute;
-    height: 220px;
+    height: 240px;
     width: 95px;
     background-color: rgb(243, 236, 236);
 	  top: 465px;

@@ -25,26 +25,20 @@
     </div>
     <div id="gaintext" class="vollabel" style="font-size: 11px; top: 320px; left: 1193px;">GAIN</div>
     <div id="gainval" class="gain"></div>
-   <!-- <div id="compressortext"class="vollabel" style="font-size: 11px; top: 290px; left: 1170px;">COMPRESSOR</div>-->
-   <!-- <button id="compression" title="off" class="compressor">C</button>-->
     <div id='filters'></div>
-        <div id="basstext" class="vollabel" style="font-size: 18px; top: 300px; left: 1450px;">BASS</div>
+        <div id="basstext" class="vollabel" style="font-size: 18px; top: 300px; left: 1455px;">BASS</div>
         <div class="vollabel" style="font-size: 14px; top: 345px; left: 1360px;">-20dB</div>
         <div class="vollabel" style="font-size: 14px; top: 345px; left: 1550px;">+20dB</div>
         <div class="slidecontainer" style="top: 330px; left: 1415px;">
             <input id="bass" type="range" class="slider" min="-20" max="20" value="0" step="1" oninput="changeBass(this.value)" >
         </div>
-        <!--<div id="midtext" class="vollabel" style="font-size: 20px; top: 435px; left: 1435px;">MID</div>
-        <div class="slidecontainer" style="top: 470px; left: 1390px;">
-            <input id="mid" type="range" class="slider" min="0" max="40" value="20" step="1" oninput="changeMid(this.value)">
-        </div>-->
         <div id="trebletext" class="vollabel" style="font-size: 18px; top: 400px; left: 1440px;">TREBLE</div>
         <div class="vollabel" style="font-size: 14px; top: 445px; left: 1360px;">-20dB</div>
         <div class="vollabel" style="font-size: 14px; top: 445px; left: 1550px;">+20dB</div>
         <div class="slidecontainer" style="top: 430px; left: 1415px;">
             <input id="treble" type="range" class="slider" min="-20" max="20" value="0" step="1" oninput="changeTreble(this.value)">
         </div>
-        <div id="distorttext" class="vollabel" style="font-size: 18px; top: 500px; left: 1420px;">DISTORTION</div>
+        <div id="distorttext" class="vollabel" style="font-size: 18px; top: 500px; left: 1415px;">DISTORTION</div>
         <button id="distortbutton" title='off'class="distortion">OFF</button>
         <div class="vollabel" style="font-size: 14px; top: 545px; left: 1380px;">LOW</div>
         <div class="vollabel" style="font-size: 14px; top: 545px; left: 1550px;">HIGH</div>
@@ -52,7 +46,7 @@
             <input id="distort" type="range" class="slider" min="0.0" max="20.0" value="10.0" step="1" oninput="changeDistortion(this.value)">
         </div>
     </div>
-
+    <canvas id="oscilloscope" class="oscscreen" width=440 height=70></canvas>
     <div id = waves>
         <button id="sine" class="wavebutton" style="left: 580px ;">SINE</button>
         <button id="square" class="wavebutton" style="left: 720px ;">SQUARE</button>
@@ -60,24 +54,33 @@
         <button id="sawtooth" class="wavebutton" style="left: 1000px ;">SAWTOOTH</button>
     </div>
 
-    <!--<div id="currwave" class="screen"></div>-->
     <div id="adsr">
-        <div id="attacktext" class="vollabel" style="font-size: 16px; top: 300px; left: 305px;">ATTACK</div>
-        <div class="slidecontainer" style="top: 320px; left: 300px;">
-            <input id="att" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeAttack(this.value)">
+        <div id="adsrsliders">
+            <div id="attacktext" class="vollabel" style="font-size: 16px; top: 300px; left: 305px;">ATTACK</div>
+            <div class="slidecontainer" style="top: 320px; left: 300px;">
+                <input id="att" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeAttack(this.value)">
+            </div>
+            <div id="decaytext" class="vollabel" style="font-size: 16px; top: 380px; left: 305px;">DECAY</div>
+            <div class="slidecontainer" style="top: 400px; left: 300px;">
+                <input id="dec" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeDecay(this.value)">
+            </div>
+            <div id="sustaintext" class="vollabel" style="font-size: 16px; top: 460px; left: 305px;">SUSTAIN</div>
+            <div class="slidecontainer" style="top: 480px; left: 300px;">
+                <input id="sus" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeSustain(this.value)">
+            </div>
+            <div id="releasetext" class="vollabel" style="font-size: 16px; top: 540px; left: 305px;">RELEASE</div>
+            <div class="slidecontainer" style="top: 560px; left: 300px;">
+                <input id="rel" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeRelease(this.value)">
+            </div>
+            <div id="modetext" class="vollabel" style="font-size: 16px; top: 620px; left: 305px;">ENVELOPE MODE</div>
         </div>
-        <div id="decaytext" class="vollabel" style="font-size: 16px; top: 380px; left: 305px;">DECAY</div>
-        <div class="slidecontainer" style="top: 400px; left: 300px;">
-            <input id="dec" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeDecay(this.value)">
+        <div id="envmode">
+            <button id="lowenv" class="envelopebutton" value="1" style="left: 305px;">LOW</button>
+            <button id="midenv" class="envelopebutton" value="2" style="left: 385px;">MID</button>
+            <button id="highenv" class="envelopebutton" value="3" style="left: 465px;">HIGH</button>
         </div>
-        <div id="sustaintext" class="vollabel" style="font-size: 16px; top: 460px; left: 305px;">SUSTAIN</div>
-        <div class="slidecontainer" style="top: 480px; left: 300px;">
-            <input id="sus" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeSustain(this.value)">
-        </div>
-        <div id="releasetext" class="vollabel" style="font-size: 16px; top: 540px; left: 305px;">RELEASE</div>
-        <div class="slidecontainer" style="top: 560px; left: 300px;">
-            <input id="rel" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeRelease(this.value)">
-        </div>
+
+
     </div>
     <div id="keys">
         <button id="261.63" class="white-key" style="left: 560px ;"></button>
