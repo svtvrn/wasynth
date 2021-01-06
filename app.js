@@ -11,6 +11,8 @@ gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
 
 //Distortion filter
 var distortion = initDistortion(context);
+var envelopeGain = initEnvelope(context);
+setEnvelopeGain(0.5);
 
 //Bass and Treble filters, gain aka boost changed by user.
 var filters = context.createBiquadFilter();
@@ -28,13 +30,6 @@ var highshelf = context.createBiquadFilter();
 highshelf.type = "highshelf";
 highshelf.frequency.value = 410;
 highshelf.gain.value = 0;
-
-//ADSR variables used to apply the effect
-var envelopeGain = context.createGain();
-var attack = decay = release = 0.5;
-var sustain = 0.5, envelopeMode = 1;
-lowenv.style.color='rgb(24, 255, 101)';
-lowenv.style.backgroundColor = '#830044';
 
 var tremolo = context.createOscillator();
 tremolo.frequency.value = 10;
@@ -58,9 +53,6 @@ keys.addEventListener("mousedown",playNote);
 var waves = document.querySelector("#waves");
 waves.addEventListener("click",changeWave);
 
-var envModeButtons = document.querySelector("#envmode");
-envModeButtons.addEventListener("click",changeEnvelopeMode);
-
 //Creates the note for the respective key, C4 to C5 and applies the filters (bass,mid,treb,compression)
 function createNote(hertz){
     var note = context.createOscillator();
@@ -77,9 +69,9 @@ function playNote(e){
     var note = createNote(hertz);
     note.connect(filters);
     note.start();
-    envelopeOn(envelopeGain.gain,attack,decay,sustain);
+    envelopeOn(attack,decay,sustain);
     keys.addEventListener("mouseup",function(){
-        envelopeOff(envelopeGain.gain,release,note);
+        envelopeOff(release,note);
     });
 }
 
@@ -88,6 +80,7 @@ function changeGain(e){
     document.getElementById('volume').addEventListener('input', function() {
         amp.gain.value=volume.value;
         gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
+        setEnvelopeGain(volume.value);
         if(amp.gain.value<0.01){
             tremolo.disconnect();
         }else{
@@ -110,27 +103,6 @@ function changeTreble(e){
     });
 }
 
-function changeAttack(e){
-    document.getElementById('att').addEventListener("input",function(){
-        attack = att.value;
-    });
-}
-function changeDecay(e){
-    document.getElementById('dec').addEventListener("input",function(){
-        decay = dec.value;
-    });
-}
-function changeSustain(e){
-    document.getElementById('sus').addEventListener("input",function(){
-        sustain = sus.value;
-    });
-}
-function changeRelease(e){
-    document.getElementById('rel').addEventListener("input",function(){
-        release = rel.value;
-    });
-}
-
 //Changes the oscillator wave type
 function changeWave(e){
     if(e.target!==e.currentTarget){
@@ -142,37 +114,4 @@ function changeWave(e){
         e.target.style.color ='rgb(24, 255, 101)';
         e.target.style.backgroundColor = 'rgb(32, 10, 46)';
     }
-}
-
-function changeEnvelopeMode(e){
-    if(e.target!==e.currentTarget){
-        envelopeMode = parseInt(e.target.value);
-        [].slice.call(document.getElementsByClassName('envelopebutton'), 0).forEach(function(element){
-            element.style.color='whitesmoke';
-            element.style.backgroundColor = '#ff006a';
-        });
-        e.target.style.color='rgb(24, 255, 101)';
-        e.target.style.backgroundColor = '#830044';
-    }
-}
-
-//Turns on the envelope effect, from attack till sustain
-function envelopeOn(gain,attack,decay,sustain){
-    var time = context.currentTime;
-    attack *= envelopeMode;
-    decay *= envelopeMode;
-    gain.cancelScheduledValues(0);
-    gain.setValueAtTime(0,time);
-    gain.linearRampToValueAtTime(amp.gain.value,time+attack);
-    gain.linearRampToValueAtTime(sustain,time+attack+decay);
-}
-
-//Releases the envelope effect
-function envelopeOff(gain,release,note){
-    var time = context.currentTime;
-    release *= envelopeMode;
-    gain.cancelScheduledValues(0);
-    gain.setValueAtTime(sustain,time);
-    gain.linearRampToValueAtTime(0,time+release);
-    note.stop(time+release);
 }
