@@ -4,20 +4,13 @@ var wave='sine'
 sine.style.color ='rgb(24, 255, 101)';
 sine.style.backgroundColor = 'rgb(32, 10, 46)';
 
-//Oscilloscope node and variables
-var analyser = context.createAnalyser();
-analyser.fftSize = 2048;
-
 //Master gain node
-var  amp = context.createGain();
+var amp = context.createGain();
 amp.gain.value=0.5;
-amp.connect(context.destination);
-amp.connect(analyser);
 gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
 
 //Distortion filter
-var distortion = context.createWaveShaper();
-distortion.curve = makeDistortionCurve(0);
+var distortion = initDistortion(context);
 
 //Bass and Treble filters, gain aka boost changed by user.
 var filters = context.createBiquadFilter();
@@ -54,9 +47,8 @@ lowshelf.connect(highshelf);
 highshelf.connect(envelopeGain);
 envelopeGain.connect(distortion);
 distortion.connect(amp);
-
-var distortButton = document.getElementById('distortbutton');
-distortButton.addEventListener("click",turnOnDistortion);
+amp.connect(context.destination);
+connectScope(context,amp);
 
 //Assigns the "keys" elements from the HTML file
 var keys = document.querySelector("#keys");
@@ -68,15 +60,6 @@ waves.addEventListener("click",changeWave);
 
 var envModeButtons = document.querySelector("#envmode");
 envModeButtons.addEventListener("click",changeEnvelopeMode);
-
-var oscilloscopeContext = document.getElementById("oscilloscope").getContext("2d");
-oscilloscope();
-
-function oscilloscope(){
-    drawOscilloscope(analyser,oscilloscopeContext);
-    requestAnimationFrame(oscilloscope);
-}
-
 
 //Creates the note for the respective key, C4 to C5 and applies the filters (bass,mid,treb,compression)
 function createNote(hertz){
@@ -124,16 +107,6 @@ function changeBass(e){
 function changeTreble(e){
     document.getElementById('treble').addEventListener("input",function(){
         highshelf.gain.value = treble.value;
-    });
-}
-
-function changeDistortion(e){
-    document.getElementById('distort').addEventListener("input",function(){
-        if(distortButton.title=='on'){
-            distortion.curve = makeDistortionCurve(distort.value*5);
-        }else{
-            return;
-        }
     });
 }
 
@@ -202,65 +175,4 @@ function envelopeOff(gain,release,note){
     gain.setValueAtTime(sustain,time);
     gain.linearRampToValueAtTime(0,time+release);
     note.stop(time+release);
-}
-
-//Button that turns on or off the distortion effect
-function turnOnDistortion(e){
-    if(distortButton.title=='off'){
-        distortButton.setAttribute('title','on');
-        distortButton.innerHTML="ON";
-        distortButton.style.color =  'rgb(24, 255, 101)';
-        distortButton.style.backgroundColor = '#830044';
-        distortion.curve = makeDistortionCurve(document.getElementById('distort').value*5);
-    }else if(distortButton.title=='on'){
-        distortButton.setAttribute('title','off');
-        distortButton.innerHTML="OFF";
-        distortButton.style.color =  'whitesmoke';
-        distortButton.style.backgroundColor = '#ff006a';
-        distortion.curve = makeDistortionCurve(0);
-    }
-}
-
-//Distorts the oscillator's wave curve
-function makeDistortionCurve(amount) {
-    var k = typeof amount === 'number' ? amount : 0,
-      n_samples = 44100,
-      curve = new Float32Array(n_samples),
-      deg = Math.PI / 180,
-      i = 0,
-      x;
-    for ( ; i < n_samples; ++i ) {
-      x = i * 2 / n_samples - 1;
-      curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
-    }
-    return curve;
-}
-
-function drawOscilloscope(analyser,context){
-
-    var height = context.canvas.height;
-    var width = context.canvas.width;
-    var timeData = new Uint8Array(analyser.frequencyBinCount);
-    var scaling = height / 256;
-    var risingEdge = 0;
-    var edgeThreshold = 5;
-    analyser.getByteTimeDomainData(timeData);
-
-    context.fillStyle = 'rgb(19, 18, 19)';
-    context.fillRect(0, 0, width, height);
-    context.lineWidth = 3;
-    context.strokeStyle = 'rgb(24, 255, 101)';
-    context.beginPath();
-
-    while (timeData[risingEdge++] - 128 > 0 && risingEdge <= width);
-        if (risingEdge >= width) risingEdge = 0;
-
-    while (timeData[risingEdge++] - 128 < edgeThreshold && risingEdge <= width);
-        if (risingEdge >= width) risingEdge = 0;
-
-    for (var x = risingEdge; x < timeData.length && x - risingEdge < width; x++)
-        context.lineTo(x - risingEdge, height - timeData[x] * scaling);
-
-    context.stroke();
-
 }
