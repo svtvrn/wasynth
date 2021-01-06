@@ -1,6 +1,7 @@
 var distortionNode;
 var button;
 
+//Initiating the distortion filter
 function initDistortion(context){
     distortionNode = context.createWaveShaper();
     distortionNode.curve = makeDistortionCurve(0);
@@ -9,6 +10,7 @@ function initDistortion(context){
     return distortionNode;
 }
 
+//Curves the note wave to create distortion
 function makeDistortionCurve(amount) {
     var k = typeof amount === 'number' ? amount : 0,
       n_samples = 44100,
@@ -31,6 +33,7 @@ function getDistortionButton(){
     return button;
 }
 
+//Distortion button listener
 function turnOnDistortion(e){
     if(button.title=='off'){
         button.setAttribute('title','on');
@@ -47,6 +50,7 @@ function turnOnDistortion(e){
     }
 }
 
+//Distortion value slider
 function changeDistortion(e){
     document.getElementById('distort').addEventListener("input",function(){
         if(button.title =='on'){

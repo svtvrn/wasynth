@@ -50,13 +50,13 @@ function changeEnvelopeMode(e){
     }
 }
 
+//Sets the envelope gain node value
 function setEnvelopeGain(value){
     envelope.gain.value = value;
 }
 
 //Turns on the envelope effect, from attack till sustain
-function envelopeOn(attack,decay,sustain){
-    var time = context.currentTime;
+function envelopeOn(attack,decay,sustain,time){
     attack *= envelopeMode;
     decay *= envelopeMode;
     envelope.gain.cancelScheduledValues(0);
@@ -66,8 +66,7 @@ function envelopeOn(attack,decay,sustain){
 }
 
 //Releases the envelope effect
-function envelopeOff(release,note){
-    var time = context.currentTime;
+function envelopeOff(release,note,time){
     release *= envelopeMode;
     envelope.gain.cancelScheduledValues(0);
     envelope.gain.setValueAtTime(sustain,time);

@@ -2,6 +2,7 @@
 var analyser;
 var oscilloscopeContext = document.getElementById("oscilloscope").getContext("2d");
 
+//Connects the synth amp to the oscilloscope
 function connectScope(context,amp){
     analyser = context.createAnalyser();
     analyser.fftSize = 2048;
@@ -9,11 +10,13 @@ function connectScope(context,amp){
     oscilloscope();
 }
 
+//Starting the oscilloscope
 function oscilloscope(){
     drawOscilloscope();
     requestAnimationFrame(oscilloscope);
 }
 
+//Draws the oscillator canvas
 function drawOscilloscope(){
 
     var height = oscilloscopeContext.canvas.height;

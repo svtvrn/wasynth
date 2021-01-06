@@ -3,6 +3,7 @@ var filters;
 var lowshelf;
 var highshelf;
 
+//Initiating the biquad filters
 function initFilters(context){
     filters = context.createBiquadFilter();
     filters.type = "peaking";
@@ -28,7 +29,7 @@ function initHighshelf(context){
     return highshelf;
 }
 
-
+//Biquad filter sliders
 function changeBass(e){
     document.getElementById('bass').addEventListener("input",function(){
         lowshelf.gain.value = bass.value;

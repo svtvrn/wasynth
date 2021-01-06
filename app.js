@@ -14,14 +14,16 @@ var filters = initFilters(context);
 var lowshelf = initLowshelf(context);
 var highshelf = initHighshelf(context);
 
-//Distortion filter
-var distortion = initDistortion(context);
+//ADSR Envelope filter
 var envelopeGain = initEnvelope(context);
 setEnvelopeGain(0.5);
 
+//Distortion filter
+var distortion = initDistortion(context);
+
 //Oscillator connected to the amp gain for tremolo effect
 var tremolo = context.createOscillator();
-tremolo.frequency.value = 8;
+tremolo.frequency.value =4;
 tremolo.type = wave;
 tremolo.connect(amp.gain);
 tremolo.start();
@@ -37,11 +39,11 @@ connectScope(context,amp);
 
 //Assigns the "keys" elements from the HTML file
 var keys = document.querySelector("#keys");
-keys.addEventListener("mousedown",playNote);
+keys.addEventListener('mousedown',playNote);
 
 //Assigns the "wave button" elements from the HTML file
 var waves = document.querySelector("#waves");
-waves.addEventListener("click",changeWave);
+waves.addEventListener('click',changeWave);
 
 //Creates the note for the respective key, C4 to C5
 function createNote(hertz){
@@ -59,9 +61,9 @@ function playNote(e){
     var note = createNote(hertz);
     note.connect(filters);
     note.start();
-    envelopeOn(attack,decay,sustain);
-    keys.addEventListener("mouseup",function(){
-        envelopeOff(release,note);
+    envelopeOn(attack,decay,sustain,context.currentTime);
+    keys.addEventListener('mouseup',function(){
+        envelopeOff(release,note,context.currentTime);
     });
 }
 
