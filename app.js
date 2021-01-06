@@ -9,34 +9,24 @@ var amp = context.createGain();
 amp.gain.value=0.5;
 gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
 
+//Biquad filters for Bass and Treble
+var filters = initFilters(context);
+var lowshelf = initLowshelf(context);
+var highshelf = initHighshelf(context);
+
 //Distortion filter
 var distortion = initDistortion(context);
 var envelopeGain = initEnvelope(context);
 setEnvelopeGain(0.5);
 
-//Bass and Treble filters, gain aka boost changed by user.
-var filters = context.createBiquadFilter();
-filters.type = "peaking";
-filters.frequency.value = 10370;
-filters.Q.value = 10000;
-filters.gain.value = 20;
-
-var lowshelf = context.createBiquadFilter();
-lowshelf.type = "lowshelf";
-lowshelf.frequency.value = 330;
-lowshelf.gain.value = 0;
-
-var highshelf = context.createBiquadFilter();
-highshelf.type = "highshelf";
-highshelf.frequency.value = 410;
-highshelf.gain.value = 0;
-
+//Oscillator connected to the amp gain for tremolo effect
 var tremolo = context.createOscillator();
-tremolo.frequency.value = 10;
+tremolo.frequency.value = 8;
 tremolo.type = wave;
 tremolo.connect(amp.gain);
 tremolo.start();
 
+//Connecting the nodes and the oscilloscope
 filters.connect(lowshelf);
 lowshelf.connect(highshelf);
 highshelf.connect(envelopeGain);
@@ -53,7 +43,7 @@ keys.addEventListener("mousedown",playNote);
 var waves = document.querySelector("#waves");
 waves.addEventListener("click",changeWave);
 
-//Creates the note for the respective key, C4 to C5 and applies the filters (bass,mid,treb,compression)
+//Creates the note for the respective key, C4 to C5
 function createNote(hertz){
     var note = context.createOscillator();
     note.type=wave;
@@ -61,7 +51,7 @@ function createNote(hertz){
     return note;
 }
 
-//Playes the note created in createNote(), applies ADSR accordingly
+//Plays the note created in createNote(), applies ADSR accordingly
 function playNote(e){
     if(e.target!==e.currentTarget){
         var hertz = parseFloat(e.target.id);
@@ -75,7 +65,7 @@ function playNote(e){
     });
 }
 
-//Changes gain when the slider value is changed
+//Changes the amp gain when the slider value is changed
 function changeGain(e){
     document.getElementById('volume').addEventListener('input', function() {
         amp.gain.value=volume.value;
@@ -88,18 +78,6 @@ function changeGain(e){
                 tremolo.connect(amp.gain);
             }
         }
-    });
-}
-
-function changeBass(e){
-    document.getElementById('bass').addEventListener("input",function(){
-        lowshelf.gain.value = bass.value;
-    });
-}
-
-function changeTreble(e){
-    document.getElementById('treble').addEventListener("input",function(){
-        highshelf.gain.value = treble.value;
     });
 }
 
