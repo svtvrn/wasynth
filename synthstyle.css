@@ -31,7 +31,7 @@ body {
     display: inline-block;
     top: 370px;
     left: 580px;
-    border-radius: 1px 1px 1px 1px;
+    border-radius: 3px;
   }
   .wavebutton {
     position: absolute;
@@ -61,6 +61,20 @@ body {
     top: 650px;
     border-radius: 6px 6px 6px 6px;
   }
+  .lfobutton {
+    position: absolute;
+    font-family: OCR A Std, monospace	;
+    color: whitesmoke;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    height: 50px;
+    width: 100px;
+    background-color:  #ff006a;
+    top: 650px;
+    border-radius: 6px 6px 6px 6px;
+  }
   .ascii-synth {
     font-family: monospace;
     white-space: pre;
@@ -79,7 +93,7 @@ body {
     background-color: rgb(19, 18, 19);
     top: 335px;
     left: 1180px;
-    border-radius: 1px 1px 1px 1px;
+    border-radius: 3px;
   }
   .slidecontainer {
     position: absolute;
@@ -114,8 +128,8 @@ body {
     height: 50px;
     width: 50px;
     background-color: #ff006a;
-    top: 590px;
-    left: 1455px;
+    top: 555px;
+    left: 1458px;
     border-radius: 100%;
   }
   .vollabel{

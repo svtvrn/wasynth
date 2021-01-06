@@ -23,9 +23,8 @@ var distortion = initDistortion(context);
 
 //Oscillator connected to the amp gain for tremolo effect
 var tremolo = context.createOscillator();
-tremolo.frequency.value =4;
+tremolo.frequency.value = 5;
 tremolo.type = wave;
-tremolo.connect(amp.gain);
 tremolo.start();
 
 //Connecting the nodes and the oscilloscope
@@ -44,6 +43,9 @@ keys.addEventListener('mousedown',playNote);
 //Assigns the "wave button" elements from the HTML file
 var waves = document.querySelector("#waves");
 waves.addEventListener('click',changeWave);
+
+var trem = document.getElementById('trem');
+trem.addEventListener('click',turnOnTremolo);
 
 //Creates the note for the respective key, C4 to C5
 function createNote(hertz){
@@ -73,13 +75,6 @@ function changeGain(e){
         amp.gain.value=volume.value;
         gainval.innerHTML = (amp.gain.value*100).toFixed(0)+"%";
         setEnvelopeGain(volume.value);
-        if(amp.gain.value<0.01){
-            tremolo.disconnect();
-        }else{
-            if(tremolo.disconnect()==undefined){
-                tremolo.connect(amp.gain);
-            }
-        }
     });
 }
 
@@ -93,5 +88,19 @@ function changeWave(e){
         });
         e.target.style.color ='rgb(24, 255, 101)';
         e.target.style.backgroundColor = 'rgb(32, 10, 46)';
+    }
+}
+
+function turnOnTremolo(e){
+    if(trem.value=='off'){
+        trem.setAttribute('value','on');
+        trem.style.color =  'rgb(24, 255, 101)';
+        trem.style.backgroundColor = '#830044';
+        tremolo.connect(amp.gain);
+    }else if(trem.value =='on'){
+        trem.setAttribute('value','off');
+        trem.style.color = 'whitesmoke';
+        trem.style.backgroundColor = '#ff006a';
+        tremolo.disconnect();
     }
 }

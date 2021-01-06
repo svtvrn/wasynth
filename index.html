@@ -24,31 +24,41 @@
         <div class="slidecontainer" style="transform: rotate(270deg); top: 350px; left: 1220px;">
             <input id="volume" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.01" oninput="changeGain(this.value)">
         </div>
-        <div id="gaintext" class="vollabel" style="font-size: 11px; top: 320px; left: 1193px;">GAIN</div>
+        <div id="gaintext" class="vollabel" style="font-size: 14px; top: 315px; left: 1189  px;">GAIN</div>
         <div id="gainval" class="gain"></div>
     </div>
     <div id='filters'>
-        <div id="basstext" class="vollabel" style="font-size: 18px; top: 300px; left: 1455px;">BASS</div>
-        <div class="vollabel" style="font-size: 14px; top: 345px; left: 1360px;">-20dB</div>
-        <div class="vollabel" style="font-size: 14px; top: 345px; left: 1550px;">+20dB</div>
-        <div class="slidecontainer" style="top: 330px; left: 1415px;">
-            <input id="bass" type="range" class="slider" min="-20" max="20" value="0" step="1" oninput="changeBass(this.value)" >
+        <div id="biquadfilters">
+            <div id="basstext" class="vollabel" style="font-size: 16px; top: 290px; left: 1458px;">BASS</div>
+            <div class="vollabel" style="font-size: 14px; top: 325px; left: 1360px;">-20dB</div>
+            <div class="vollabel" style="font-size: 14px; top: 325px; left: 1550px;">+20dB</div>
+            <div class="slidecontainer" style="top: 310px; left: 1415px;">
+                <input id="bass" type="range" class="slider" min="-20" max="20" value="0" step="1" oninput="changeBass(this.value)" >
+            </div>
+            <div id="trebletext" class="vollabel" style="font-size: 16px; top: 380px; left: 1445px;">TREBLE</div>
+            <div class="vollabel" style="font-size: 14px; top: 415px; left: 1360px;">-20dB</div>
+            <div class="vollabel" style="font-size: 14px; top: 415px; left: 1550px;">+20dB</div>
+            <div class="slidecontainer" style="top: 400px; left: 1415px;">
+                <input id="treble" type="range" class="slider" min="-20" max="20" value="0" step="1" oninput="changeTreble(this.value)">
+            </div>
         </div>
-        <div id="trebletext" class="vollabel" style="font-size: 18px; top: 400px; left: 1440px;">TREBLE</div>
-        <div class="vollabel" style="font-size: 14px; top: 445px; left: 1360px;">-20dB</div>
-        <div class="vollabel" style="font-size: 14px; top: 445px; left: 1550px;">+20dB</div>
-        <div class="slidecontainer" style="top: 430px; left: 1415px;">
-            <input id="treble" type="range" class="slider" min="-20" max="20" value="0" step="1" oninput="changeTreble(this.value)">
+        <div id="waveshaper">
+            <div id="distorttext" class="vollabel" style="font-size: 16px; top: 480px; left: 1423px;">DISTORTION</div>
+            <button id="distortbutton" title='off'class="distortion">OFF</button>
+            <div class="vollabel" style="font-size: 14px; top: 515px; left: 1380px;">LOW</div>
+            <div class="vollabel" style="font-size: 14px; top: 515px; left: 1552px;">HIGH</div>
+            <div class="slidecontainer" style="top: 500px; left: 1415px;">
+                <input id="distort" type="range" class="slider" min="0.0" max="20.0" value="10.0" step="1" oninput="changeDistortion(this.value)">
+            </div>
         </div>
-        <div id="distorttext" class="vollabel" style="font-size: 18px; top: 500px; left: 1415px;">DISTORTION</div>
-        <button id="distortbutton" title='off'class="distortion">OFF</button>
-        <div class="vollabel" style="font-size: 14px; top: 545px; left: 1380px;">LOW</div>
-        <div class="vollabel" style="font-size: 14px; top: 545px; left: 1550px;">HIGH</div>
-        <div class="slidecontainer" style="top: 530px; left: 1415px;">
-            <input id="distort" type="range" class="slider" min="0.0" max="20.0" value="10.0" step="1" oninput="changeDistortion(this.value)">
+        <div id="lfos">
+            <div id="lfotext" class="vollabel" style="font-size: 16px; top: 620px; left: 1460px;">LFOs</div>
+            <button id="trem" class="lfobutton" value="off" style="left: 1375px;">TREMOLO</button>
+            <button id="vibrato" class="lfobutton" value="off" style="left: 1490px;">VIBRATO</button>
+
         </div>
     </div>
-    <canvas id="oscilloscope" class="oscscreen" width=440 height=70></canvas>
+    <canvas id="oscilloscope" class="oscscreen" width=540 height=70></canvas>
     <div id = waves>
         <button id="sine" class="wavebutton" style="left: 580px ;">SINE</button>
         <button id="square" class="wavebutton" style="left: 720px ;">SQUARE</button>
@@ -73,9 +83,9 @@
             <div class="slidecontainer" style="top: 560px; left: 300px;">
                 <input id="rel" type="range" class="slider" min="0.0" max="1.0" value="0.5" step="0.1" oninput="changeRelease(this.value)">
             </div>
-            <div id="modetext" class="vollabel" style="font-size: 16px; top: 620px; left: 305px;">ENVELOPE MODE</div>
         </div>
         <div id="envmode">
+            <div id="modetext" class="vollabel" style="font-size: 16px; top: 620px; left: 305px;">ENVELOPE MODE</div>
             <button id="lowenv" class="envelopebutton" value="1" style="left: 305px;">LOW</button>
             <button id="midenv" class="envelopebutton" value="2" style="left: 385px;">MID</button>
             <button id="highenv" class="envelopebutton" value="3" style="left: 465px;">HIGH</button>
@@ -90,7 +100,6 @@
         <button id="440.00" class="white-key" style="left: 1060px ;"></button>
         <button id="493.88" class="white-key" style="left: 1160px ;"></button>
         <button id="523.25" class="white-key" style="left: 1260px ;"></button>
-
         <button id="277.18" class="black-key" style="left: 630px ;"></button>
         <button id="311.13" class="black-key" style="left: 730px ;"></button>
         <button id="369.99" class="black-key" style="left: 930px ;"></button>
