@@ -21,11 +21,18 @@ setEnvelopeGain(0.5);
 //Distortion filter
 var distortion = initDistortion(context);
 
-//Oscillator connected to the amp gain for tremolo effect
+//LFO connected to the amp gain for tremolo effect
 var tremolo = context.createOscillator();
 tremolo.frequency.value = 5;
 tremolo.type = wave;
 tremolo.start();
+
+//LFO connected to a gain node for vibrato effect
+var vibrato = context.createGain();
+vibrato.gain.value=100;
+var vibratoLfo = context.createOscillator();
+vibratoLfo.frequency.value=3;
+vibratoLfo.start();
 
 //Connecting the nodes and the oscilloscope
 filters.connect(lowshelf);
@@ -47,6 +54,9 @@ waves.addEventListener('click',changeWave);
 var trem = document.getElementById('trem');
 trem.addEventListener('click',turnOnTremolo);
 
+var vibr = document.getElementById('vibr');
+vibr.addEventListener('click',turnOnVibrato);
+
 //Creates the note for the respective key, C4 to C5
 function createNote(hertz){
     var note = context.createOscillator();
@@ -62,6 +72,7 @@ function playNote(e){
     }
     var note = createNote(hertz);
     note.connect(filters);
+    vibrato.connect(note.detune);
     note.start();
     envelopeOn(attack,decay,sustain,context.currentTime);
     keys.addEventListener('mouseup',function(){
@@ -102,5 +113,19 @@ function turnOnTremolo(e){
         trem.style.color = 'whitesmoke';
         trem.style.backgroundColor = '#ff006a';
         tremolo.disconnect();
+    }
+}
+
+function turnOnVibrato(e){
+    if(vibr.value=='off'){
+        vibr.setAttribute('value','on');
+        vibr.style.color =  'rgb(24, 255, 101)';
+        vibr.style.backgroundColor = '#830044';
+        vibratoLfo.connect(vibrato);
+    }else if(vibr.value =='on'){
+        vibr.setAttribute('value','off');
+        vibr.style.color = 'whitesmoke';
+        vibr.style.backgroundColor = '#ff006a';
+        vibratoLfo.disconnect();
     }
 }
