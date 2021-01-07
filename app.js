@@ -23,7 +23,7 @@ var distortion = initDistortion(context);
 
 //LFO connected to the amp gain for tremolo effect
 var tremolo = context.createOscillator();
-tremolo.frequency.value = 5;
+tremolo.frequency.value = 3;
 tremolo.type = wave;
 tremolo.start();
 
@@ -68,7 +68,7 @@ function createNote(hertz){
 //Plays the note created in createNote(), applies ADSR accordingly
 function playNote(e){
     if(e.target!==e.currentTarget){
-        var hertz = parseFloat(e.target.id);
+        var hertz = parseFloat(e.target.id)*(0.5);
     }
     var note = createNote(hertz);
     note.connect(filters);
